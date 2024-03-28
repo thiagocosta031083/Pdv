@@ -10,7 +10,7 @@ public class Clientes {
     private String telefone;
     private String celular;
     private String cep;
-    private String endereço;
+    private String endereco;
     private int numero;
     private String complemento;
     private String bairro;
@@ -132,15 +132,15 @@ public class Clientes {
     /**
      * @return the endereço
      */
-    public String getEndereço() {
-        return endereço;
+    public String getEndereco() {
+        return endereco;
     }
 
     /**
      * @param endereço the endereço to set
      */
-    public void setEndereço(String endereço) {
-        this.endereço = endereço;
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
     /**
