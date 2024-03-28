@@ -15,7 +15,8 @@ public class Frmclientes extends javax.swing.JFrame {
 
     //Metodo Listar na tabela
     public void listar(){
-       
+    
+     try{
         ClientesDAO dao = new ClientesDAO();
         List<Clientes> lista = dao.listarClientes();
         DefaultTableModel dados = (DefaultTableModel) tabelaClientes.getModel();
@@ -39,7 +40,13 @@ public class Frmclientes extends javax.swing.JFrame {
                 c.getUf()
             });
         
+        }
+     } catch (Exception e) {
+         e.printStackTrace();
+     }
+        
     }
+        
         
     public Frmclientes(){
         initComponents();
@@ -410,7 +417,7 @@ public class Frmclientes extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Nome", "RG", "CPF", "E-mail", "Telefone", "Celular", "CEP", "Endereço", "N°", "Comp", "Bairro", "Cidade", "UF"
+                "Código", "Nome", "RG", "CPF", "E-mail", "Telefone", "Celular", "CEP", "Endereço", "N°", "Comp", "Bairro", "Cidade", "estado"
             }
         ));
         jScrollPane10.setViewportView(tabelaClientes);
