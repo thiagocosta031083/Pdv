@@ -16,7 +16,9 @@ public class Frmclientes extends javax.swing.JFrame {
     //Metodo Listar na tabela
     public void listar(){
     
-     try{
+     try{/*ao adicionar o bloco try-catch e imprimir o stack trace da exceção (e.printStackTrace()), você está obtendo 
+         informações detalhadas sobre qualquer exceção que ocorra durante a execução do método listar().*/
+         
         ClientesDAO dao = new ClientesDAO();
         List<Clientes> lista = dao.listarClientes();
         DefaultTableModel dados = (DefaultTableModel) tabelaClientes.getModel();
@@ -42,7 +44,8 @@ public class Frmclientes extends javax.swing.JFrame {
         
         }
      } catch (Exception e) {
-         e.printStackTrace();
+         e.printStackTrace();/*Isso permite identificar o motivo específico do erro e tomar as medidas adequadas
+         para tratá-lo ou lidar com ele de forma apropriada, o que resolveu o problema que você estava enfrentando.*/
      }
         
     }
@@ -146,6 +149,11 @@ public class Frmclientes extends javax.swing.JFrame {
         );
 
         jTabbedPane1.setBackground(new java.awt.Color(204, 204, 204));
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -591,6 +599,11 @@ public class Frmclientes extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_formWindowActivated
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        // Pega os dados
+        jTabbedPane1.setSelectedIndex(3);
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     /**
      * @param args the command line arguments
