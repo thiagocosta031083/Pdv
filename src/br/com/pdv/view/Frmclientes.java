@@ -108,7 +108,7 @@ public class Frmclientes extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         jScrollPane9 = new javax.swing.JScrollPane();
-        jTextPane9 = new javax.swing.JTextPane();
+        txtpesquisa = new javax.swing.JTextPane();
         btn_pesquisar = new javax.swing.JButton();
         jScrollPane10 = new javax.swing.JScrollPane();
         tabelaClientes = new javax.swing.JTable();
@@ -406,8 +406,13 @@ public class Frmclientes extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel16.setText("Nome:");
 
-        jTextPane9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jScrollPane9.setViewportView(jTextPane9);
+        txtpesquisa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtpesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtpesquisaKeyPressed(evt);
+            }
+        });
+        jScrollPane9.setViewportView(txtpesquisa);
 
         btn_pesquisar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_pesquisar.setText("Pesquisar");
@@ -428,6 +433,11 @@ public class Frmclientes extends javax.swing.JFrame {
                 "Código", "Nome", "RG", "CPF", "E-mail", "Telefone", "Celular", "CEP", "Endereço", "N°", "Comp", "Bairro", "Cidade", "estado"
             }
         ));
+        tabelaClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaClientesMouseClicked(evt);
+            }
+        });
         jScrollPane10.setViewportView(tabelaClientes);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -555,7 +565,40 @@ public class Frmclientes extends javax.swing.JFrame {
     }//GEN-LAST:event_txtcpfActionPerformed
 
     private void btn_pesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pesquisarActionPerformed
-        // TODO add your handling code here:
+        // Botão Pesquisar
+        String nome = "%" + txtpesquisa.getText() + "%";
+        try{/*ao adicionar o bloco try-catch e imprimir o stack trace da exceção (e.printStackTrace()), você está obtendo 
+         informações detalhadas sobre qualquer exceção que ocorra durante a execução do método listar().*/
+         
+        ClientesDAO dao = new ClientesDAO();
+        List<Clientes> lista = dao.buscaClientePorNome(nome);
+        DefaultTableModel dados = (DefaultTableModel) tabelaClientes.getModel();
+        dados.setNumRows(0);
+        
+        for(Clientes c: lista){
+            dados.addRow(new Object[]{
+                c.getId(),
+                c.getNome(),
+                c.getRg(),
+                c.getCpf(),
+                c.getEmail(),
+                c.getTelefone(),
+                c.getCelular(),
+                c.getCep(),
+                c.getEndereco(),
+                c.getNumero(),
+                c.getComplemento(),
+                c.getBairro(),
+                c.getCidade(),
+                c.getUf()
+            });
+        
+        }
+     } catch (Exception e) {
+         e.printStackTrace();/*Isso permite identificar o motivo específico do erro e tomar as medidas adequadas
+         para tratá-lo ou lidar com ele de forma apropriada, o que resolveu o problema que você estava enfrentando.*/
+     }
+        
     }//GEN-LAST:event_btn_pesquisarActionPerformed
 
     private void btn_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novoActionPerformed
@@ -586,11 +629,38 @@ public class Frmclientes extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_salvarActionPerformed
 
     private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
-        // TODO add your handling code here:
+        // botao editar
+      
+        Clientes obj = new Clientes();
+        obj.setNome(txtnome.getText());
+        obj.setRg(txtrg.getText());
+        obj.setCpf(txtcpf.getText());
+        obj.setEmail(txtemail.getText());
+        obj.setTelefone(txt_telefone.getText());
+        obj.setCelular(txtcelular.getText());
+        obj.setCep(txtcep.getText());
+        obj.setEndereco(txtendereco.getText());
+        obj.setNumero(Integer.parseInt(txtnumero.getText()));
+        obj.setComplemento(txtcomplemento.getText());
+        obj.setBairro(txtbairro.getText());
+        obj.setCidade(txtcidade.getText());
+        obj.setUf(cb_uf.getSelectedItem().toString());
+        obj.setId(Integer.parseInt(txtcodigo.getText()));
+
+        ClientesDAO dao = new ClientesDAO();
+        dao.alterarCliente(obj);
+
     }//GEN-LAST:event_btn_editarActionPerformed
 
     private void btn_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_excluirActionPerformed
-        // TODO add your handling code here:
+        // botao excluir
+      
+        Clientes obj = new Clientes();
+       
+        obj.setId(Integer.parseInt(txtcodigo.getText()));
+
+        ClientesDAO dao = new ClientesDAO();
+        dao.excluirCliente(obj);
     }//GEN-LAST:event_btn_excluirActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -601,9 +671,72 @@ public class Frmclientes extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
-        // Pega os dados
-        jTabbedPane1.setSelectedIndex(3);
+        //Ver o que acontece
+               
+        
     }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void tabelaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaClientesMouseClicked
+        // Pega os dados
+        jTabbedPane1.setSelectedIndex(0);
+        
+        txtcodigo.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 0).toString());
+        txtnome.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 1).toString());
+        txtrg.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 2).toString());
+        txtcpf.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 3).toString());
+        txtemail.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 4).toString());
+        txt_telefone.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 5).toString());
+        txtcelular.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 6).toString());
+        txtcep.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 7).toString());
+        txtendereco.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 8).toString());
+        txtnumero.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 9).toString());
+        txtcomplemento.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 10).toString());
+        txtbairro.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 11).toString());
+        txtcidade.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 12).toString());
+        cb_uf.setSelectedItem(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 13).toString());
+        
+        
+        
+        
+    }//GEN-LAST:event_tabelaClientesMouseClicked
+
+    private void txtpesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtpesquisaKeyPressed
+         /* No compo de pesquisa quando coloca o nome = este comando vai selecionando a lista de acordo com o que for
+         digitando*/
+         
+        String nome = "%" + txtpesquisa.getText() + "%";
+        try{/*ao adicionar o bloco try-catch e imprimir o stack trace da exceção (e.printStackTrace()), você está obtendo 
+         informações detalhadas sobre qualquer exceção que ocorra durante a execução do método listar().*/
+         
+        ClientesDAO dao = new ClientesDAO();
+        List<Clientes> lista = dao.buscaClientePorNome(nome);
+        DefaultTableModel dados = (DefaultTableModel) tabelaClientes.getModel();
+        dados.setNumRows(0);
+        
+        for(Clientes c: lista){
+            dados.addRow(new Object[]{
+                c.getId(),
+                c.getNome(),
+                c.getRg(),
+                c.getCpf(),
+                c.getEmail(),
+                c.getTelefone(),
+                c.getCelular(),
+                c.getCep(),
+                c.getEndereco(),
+                c.getNumero(),
+                c.getComplemento(),
+                c.getBairro(),
+                c.getCidade(),
+                c.getUf()
+            });
+        
+        }
+     } catch (Exception e) {
+         e.printStackTrace();/*Isso permite identificar o motivo específico do erro e tomar as medidas adequadas
+         para tratá-lo ou lidar com ele de forma apropriada, o que resolveu o problema que você estava enfrentando.*/
+     }
+    }//GEN-LAST:event_txtpesquisaKeyPressed
 
     /**
      * @param args the command line arguments
@@ -678,7 +811,6 @@ public class Frmclientes extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextPane jTextPane9;
     private javax.swing.JTable tabelaClientes;
     private javax.swing.JFormattedTextField txt_telefone;
     private javax.swing.JTextPane txtbairro;
@@ -692,6 +824,7 @@ public class Frmclientes extends javax.swing.JFrame {
     private javax.swing.JTextPane txtendereco;
     private javax.swing.JTextPane txtnome;
     private javax.swing.JTextPane txtnumero;
+    private javax.swing.JTextPane txtpesquisa;
     private javax.swing.JFormattedTextField txtrg;
     // End of variables declaration//GEN-END:variables
 }
