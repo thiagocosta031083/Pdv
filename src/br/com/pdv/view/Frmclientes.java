@@ -109,6 +109,7 @@ public class Frmclientes extends javax.swing.JFrame {
         btn_pesquisar = new javax.swing.JButton();
         jScrollPane10 = new javax.swing.JScrollPane();
         tabelaClientes = new javax.swing.JTable();
+        btn_pesquisar1 = new javax.swing.JButton();
         btn_novo = new javax.swing.JButton();
         btn_salvar = new javax.swing.JButton();
         btn_editar = new javax.swing.JButton();
@@ -470,6 +471,15 @@ public class Frmclientes extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Consulta de Clientes", painel_consulta);
 
+        btn_pesquisar1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btn_pesquisar1.setText("Pesquisar");
+        btn_pesquisar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_pesquisar1ActionPerformed(evt);
+            }
+        });
+        jTabbedPane1.addTab("tab3", btn_pesquisar1);
+
         btn_novo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_novo.setText("NOVO");
         btn_novo.addActionListener(new java.awt.event.ActionListener() {
@@ -601,8 +611,7 @@ public class Frmclientes extends javax.swing.JFrame {
 
     private void btn_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novoActionPerformed
         // botao novo
-        Utilitarios utilitarios = new Utilitarios();
-        utilitarios.LimpaTela(painel_dados);
+        new Utilitarios().LimpaTela(painel_dados);
 
     }//GEN-LAST:event_btn_novoActionPerformed
 
@@ -744,6 +753,10 @@ public class Frmclientes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtpesquisaKeyPressed
 
+    private void btn_pesquisar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pesquisar1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_pesquisar1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -785,6 +798,7 @@ public class Frmclientes extends javax.swing.JFrame {
     private javax.swing.JButton btn_excluir;
     private javax.swing.JButton btn_novo;
     private javax.swing.JButton btn_pesquisar;
+    private javax.swing.JButton btn_pesquisar1;
     private javax.swing.JButton btn_salvar;
     private javax.swing.JComboBox<String> cb_uf;
     private javax.swing.JLabel jLabel1;
