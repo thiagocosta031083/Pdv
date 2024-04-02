@@ -2,6 +2,7 @@ package br.com.pdv.dao;
 
 import br.com.pdv.jdbc.ConnectionFactory;
 import br.com.pdv.model.Clientes;
+import br.com.pdv.model.WebServiceCep;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -232,4 +233,26 @@ public class ClientesDAO {
             return null;
         }
     }
+    
+    //Busca Cep
+    public Clientes buscaCep(String cep){
+        WebServiceCep webServiceCep = WebServiceCep.searchCep(cep);
+        
+        Clientes obj = new Clientes();
+        
+        if (webServiceCep.wasSuccessful()) {
+            obj.setEndereco(webServiceCep.getLogradouroFull());
+            obj.setCidade(webServiceCep.getCidade());
+            obj.setBairro(webServiceCep.getBairro());
+            obj.setUf(webServiceCep.getUf());
+            
+            return obj;
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro numero" + webServiceCep.getResulCode());
+            JOptionPane.showMessageDialog(null, "Descrição do erro" + webServiceCep.getResultText());
+            
+            return null;
+        }
+    }   
 }
+    
