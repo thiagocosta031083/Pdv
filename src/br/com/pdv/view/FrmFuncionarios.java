@@ -1,7 +1,9 @@
 package br.com.pdv.view;
 
 import br.com.pdv.dao.ClientesDAO;
+import br.com.pdv.dao.FuncionariosDAO;
 import br.com.pdv.model.Clientes;
+import br.com.pdv.model.Funcionarios;
 import br.com.pdv.model.Utilitarios;
 import java.awt.Color;
 import java.util.List;
@@ -19,18 +21,21 @@ public class FrmFuncionarios extends javax.swing.JFrame {
         try {/*ao adicionar o bloco try-catch e imprimir o stack trace da exceção (e.printStackTrace()), você está obtendo 
          informações detalhadas sobre qualquer exceção que ocorra durante a execução do método listar().*/
 
-            ClientesDAO dao = new ClientesDAO();
-            List<Clientes> lista = dao.listarClientes();
+            FuncionariosDAO dao = new FuncionariosDAO();
+            List<Funcionarios> lista = dao.listarFuncionarios();
             DefaultTableModel dados = (DefaultTableModel) tabelaFuncionarios.getModel();
             dados.setNumRows(0);
 
-            for (Clientes c : lista) {
+            for (Funcionarios c : lista) {
                 dados.addRow(new Object[]{
                     c.getId(),
                     c.getNome(),
                     c.getRg(),
                     c.getCpf(),
                     c.getEmail(),
+                    c.getSenha(),
+                    c.getCargo(),
+                    c.getNivel_acesso(),
                     c.getTelefone(),
                     c.getCelular(),
                     c.getCep(),
@@ -690,11 +695,15 @@ public class FrmFuncionarios extends javax.swing.JFrame {
     private void btn_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvarActionPerformed
         // botao salvar
 
-        Clientes obj = new Clientes();
+        Funcionarios obj = new Funcionarios();
+        
         obj.setNome(txtnome.getText());
         obj.setRg(txtrg.getText());
         obj.setCpf(txtcpf.getText());
         obj.setEmail(txtemail.getText());
+        obj.setSenha(txtsenha.getText());
+        obj.setCargo(txtcargo.getText());
+        obj.setNivel_acesso(cbnivel.getSelectedItem().toString());
         obj.setTelefone(txt_telefone.getText());
         obj.setCelular(txtcelular.getText());
         obj.setCep(txtcep.getText());
@@ -705,8 +714,8 @@ public class FrmFuncionarios extends javax.swing.JFrame {
         obj.setCidade(txtcidade.getText());
         obj.setUf(cb_uf.getSelectedItem().toString());
 
-        ClientesDAO dao = new ClientesDAO();
-        dao.cadastrarCliente(obj);
+        FuncionariosDAO dao = new FuncionariosDAO();
+        dao.cadastrarFuncionarios(obj);
 
         new Utilitarios().LimpaTela(painel_dados);
 
@@ -715,11 +724,14 @@ public class FrmFuncionarios extends javax.swing.JFrame {
     private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
         // botao editar
 
-        Clientes obj = new Clientes();
+        Funcionarios obj = new Funcionarios();
         obj.setNome(txtnome.getText());
         obj.setRg(txtrg.getText());
         obj.setCpf(txtcpf.getText());
         obj.setEmail(txtemail.getText());
+        obj.setCargo(txtcargo.getText());
+        obj.setNivel_acesso(cbnivel.getSelectedItem().toString());
+        obj.setEmail(txtemail.getText());  
         obj.setTelefone(txt_telefone.getText());
         obj.setCelular(txtcelular.getText());
         obj.setCep(txtcep.getText());
@@ -731,8 +743,8 @@ public class FrmFuncionarios extends javax.swing.JFrame {
         obj.setUf(cb_uf.getSelectedItem().toString());
         obj.setId(Integer.parseInt(txtcodigo.getText()));
 
-        ClientesDAO dao = new ClientesDAO();
-        dao.alterarCliente(obj);
+        FuncionariosDAO dao = new FuncionariosDAO();
+        dao.alterarFuncionarios(obj);
 
         new Utilitarios().LimpaTela(painel_dados);
 
@@ -741,12 +753,12 @@ public class FrmFuncionarios extends javax.swing.JFrame {
     private void btn_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_excluirActionPerformed
         // botao excluir
 
-        Clientes obj = new Clientes();
+        Funcionarios obj = new Funcionarios();
 
         obj.setId(Integer.parseInt(txtcodigo.getText()));
 
-        ClientesDAO dao = new ClientesDAO();
-        dao.excluirCliente(obj);
+        FuncionariosDAO dao = new FuncionariosDAO();
+        dao.excluirFuncionarios(obj);
 
         new Utilitarios().LimpaTela(painel_dados);
 
@@ -774,15 +786,18 @@ public class FrmFuncionarios extends javax.swing.JFrame {
         txtrg.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 2).toString());
         txtcpf.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 3).toString());
         txtemail.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 4).toString());
-        txt_telefone.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 5).toString());
-        txtcelular.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 6).toString());
-        txtcep.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 7).toString());
-        txtendereco.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 8).toString());
-        txtnumero.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 9).toString());
-        txtcomplemento.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 10).toString());
-        txtbairro.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 11).toString());
-        txtcidade.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 12).toString());
-        cb_uf.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 13).toString());
+        txtsenha.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 5).toString());
+        txtcargo.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 6).toString());
+        cbnivel.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 7).toString());
+        txt_telefone.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 8).toString());
+        txtcelular.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 9).toString());
+        txtcep.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 10).toString());
+        txtendereco.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 11).toString());
+        txtnumero.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 12).toString());
+        txtcomplemento.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 13).toString());
+        txtbairro.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 14).toString());
+        txtcidade.setText(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 15).toString());
+        cb_uf.setSelectedItem(tabelaFuncionarios.getValueAt(tabelaFuncionarios.getSelectedRow(), 16).toString());
 
 
     }//GEN-LAST:event_tabelaFuncionariosMouseClicked
