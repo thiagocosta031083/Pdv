@@ -1,6 +1,5 @@
 package br.com.pdv.view;
 
-import br.com.pdv.dao.ClientesDAO;
 import br.com.pdv.dao.FuncionariosDAO;
 import br.com.pdv.model.Clientes;
 import br.com.pdv.model.Funcionarios;
@@ -655,18 +654,21 @@ public class FrmFuncionarios extends javax.swing.JFrame {
         try {/*ao adicionar o bloco try-catch e imprimir o stack trace da exceção (e.printStackTrace()), você está obtendo 
          informações detalhadas sobre qualquer exceção que ocorra durante a execução do método listar().*/
 
-            ClientesDAO dao = new ClientesDAO();
-            List<Clientes> lista = dao.buscaClientePorNome(nome);
+            FuncionariosDAO dao = new FuncionariosDAO();
+            List<Funcionarios> lista = dao.buscaFuncionarioPorNome(nome);
             DefaultTableModel dados = (DefaultTableModel) tabelaFuncionarios.getModel();
             dados.setNumRows(0);
 
-            for (Clientes c : lista) {
+            for (Funcionarios c : lista) {
                 dados.addRow(new Object[]{
                     c.getId(),
                     c.getNome(),
                     c.getRg(),
                     c.getCpf(),
                     c.getEmail(),
+                    c.getSenha(),
+                    c.getCargo(),
+                    c.getNivel_acesso(),                    
                     c.getTelefone(),
                     c.getCelular(),
                     c.getCep(),
@@ -696,7 +698,7 @@ public class FrmFuncionarios extends javax.swing.JFrame {
         // botao salvar
 
         Funcionarios obj = new Funcionarios();
-        
+
         obj.setNome(txtnome.getText());
         obj.setRg(txtrg.getText());
         obj.setCpf(txtcpf.getText());
@@ -729,9 +731,9 @@ public class FrmFuncionarios extends javax.swing.JFrame {
         obj.setRg(txtrg.getText());
         obj.setCpf(txtcpf.getText());
         obj.setEmail(txtemail.getText());
+        obj.setSenha(txtsenha.getText());
         obj.setCargo(txtcargo.getText());
         obj.setNivel_acesso(cbnivel.getSelectedItem().toString());
-        obj.setEmail(txtemail.getText());  
         obj.setTelefone(txt_telefone.getText());
         obj.setCelular(txtcelular.getText());
         obj.setCep(txtcep.getText());
@@ -810,18 +812,21 @@ public class FrmFuncionarios extends javax.swing.JFrame {
         try {/*ao adicionar o bloco try-catch e imprimir o stack trace da exceção (e.printStackTrace()), você está obtendo 
          informações detalhadas sobre qualquer exceção que ocorra durante a execução do método listar().*/
 
-            ClientesDAO dao = new ClientesDAO();
-            List<Clientes> lista = dao.buscaClientePorNome(nome);
+            FuncionariosDAO dao = new FuncionariosDAO();
+            List<Funcionarios> lista = dao.buscaFuncionarioPorNome(nome);
             DefaultTableModel dados = (DefaultTableModel) tabelaFuncionarios.getModel();
             dados.setNumRows(0);
 
-            for (Clientes c : lista) {
+            for (Funcionarios c : lista) {
                 dados.addRow(new Object[]{
                     c.getId(),
                     c.getNome(),
                     c.getRg(),
                     c.getCpf(),
                     c.getEmail(),
+                    c.getSenha(),
+                    c.getCargo(),
+                    c.getNivel_acesso(),                    
                     c.getTelefone(),
                     c.getCelular(),
                     c.getCep(),
@@ -838,14 +843,16 @@ public class FrmFuncionarios extends javax.swing.JFrame {
             e.printStackTrace();/*Isso permite identificar o motivo específico do erro e tomar as medidas adequadas
          para tratá-lo ou lidar com ele de forma apropriada, o que resolveu o problema que você estava enfrentando.*/
         }
+
+    
     }//GEN-LAST:event_txtpesquisaKeyPressed
 
     private void btn_buscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscaActionPerformed
         // botao buscar cliente por nome
         try {
             String nome = txtnome.getText();
-            Clientes obj = new Clientes();
-            ClientesDAO dao = new ClientesDAO();
+            Funcionarios obj = new Funcionarios();
+            FuncionariosDAO dao = new FuncionariosDAO();
 
             obj = dao.consultaPorNome(nome);
 
@@ -857,6 +864,9 @@ public class FrmFuncionarios extends javax.swing.JFrame {
                 txtrg.setText(obj.getRg());
                 txtcpf.setText(obj.getCpf());
                 txtemail.setText(obj.getEmail());
+                txtsenha.setText(obj.getSenha());
+                txtcargo.setText(obj.getCargo());
+                cbnivel.setSelectedItem(obj.getNivel_acesso());
                 txt_telefone.setText(obj.getTelefone());
                 txtcelular.setText(obj.getCelular());
                 txtcep.setText(obj.getCep());
@@ -868,10 +878,10 @@ public class FrmFuncionarios extends javax.swing.JFrame {
                 cb_uf.setSelectedItem(obj.getUf());
 
             } else {
-                JOptionPane.showMessageDialog(null, "Cliente não encontrado!");
+                JOptionPane.showMessageDialog(null, "Funcionario não encontrado!");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Cliente não encontrado!");
+            JOptionPane.showMessageDialog(null, "Funcionario não encontrado!");
         }
 
 
@@ -881,8 +891,8 @@ public class FrmFuncionarios extends javax.swing.JFrame {
         // Programacao do Keypress
 
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            Clientes obj = new Clientes();
-            ClientesDAO dao = new ClientesDAO();
+            Funcionarios obj = new Funcionarios();
+            FuncionariosDAO dao = new FuncionariosDAO();
             obj = dao.buscaCep(txtcep.getText());
 
             txtendereco.setText(obj.getEndereco());

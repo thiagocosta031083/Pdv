@@ -3,6 +3,7 @@ package br.com.pdv.dao;
 import br.com.pdv.jdbc.ConnectionFactory;
 import br.com.pdv.model.Clientes;
 import br.com.pdv.model.Funcionarios;
+import br.com.pdv.model.WebServiceCep;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -166,4 +167,140 @@ public class FuncionariosDAO {
         }
     }
 
+        //Metodo consultaFuncionarios por Nome
+
+    public Funcionarios consultaPorNome(String nome) {
+        try {
+            //1 passo - criar o sql, organizar e executar
+            String sql = "select * from tb_funcionarios where nome =?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, nome);
+            
+            ResultSet rs = stmt.executeQuery();
+            Funcionarios obj = new Funcionarios();
+            
+            if (rs.next()) {
+                
+                obj.setId(rs.getInt("id"));
+                obj.setNome(rs.getString("nome"));
+                obj.setRg(rs.getString("rg"));
+                obj.setCpf(rs.getString("cpf"));
+                obj.setEmail(rs.getString("email"));
+                obj.setSenha(rs.getString("senha"));
+                obj.setCargo(rs.getString("cargo"));
+                obj.setNivel_acesso(rs.getString("nivel_acesso"));                
+                obj.setTelefone(rs.getString("telefone"));
+                obj.setCelular(rs.getString("celular"));
+                obj.setCep(rs.getString("cep"));
+                obj.setEndereco(rs.getString("endereco"));
+                obj.setNumero(rs.getInt("numero"));
+                obj.setComplemento(rs.getString("complemento"));
+                obj.setBairro(rs.getString("bairro"));
+                obj.setCidade(rs.getString("cidade"));
+                obj.setUf(rs.getString("estado"));
+
+                return obj;
+
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Funcionário não encontrado!");
+            return null;
+        }
+        return null;
+    } 
+
+    //Metodo buscarFuncionarioPorNome - retorna uma lista
+    public List<Funcionarios> buscaFuncionarioPorNome(String nome) {
+        try {
+            //1 passo - criar a lista
+            List<Funcionarios> lista = new ArrayList<>();
+
+            //2 passo - criar o sql, organizar e executar
+            String sql = "select * from tb_clientes where nome like?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, nome);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Funcionarios obj = new Funcionarios();
+
+                obj.setId(rs.getInt("id"));
+                obj.setNome(rs.getString("nome"));
+                obj.setRg(rs.getString("rg"));
+                obj.setCpf(rs.getString("cpf"));
+                obj.setEmail(rs.getString("email"));
+                obj.setSenha(rs.getString("senha"));
+                obj.setCargo(rs.getString("cargo"));
+                obj.setNivel_acesso(rs.getString("nivel_acesso"));
+                obj.setTelefone(rs.getString("telefone"));
+                obj.setCelular(rs.getString("celular"));
+                obj.setCep(rs.getString("cep"));
+                obj.setEndereco(rs.getString("endereco"));
+                obj.setNumero(rs.getInt("numero"));
+                obj.setComplemento(rs.getString("complemento"));
+                obj.setBairro(rs.getString("bairro"));
+                obj.setCidade(rs.getString("cidade"));
+                obj.setUf(rs.getString("estado"));
+
+                lista.add(obj);
+
+            }
+
+            return lista;
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro" + e);
+            return null;
+        }
+    }
+    
+       //Busca Cep
+    public Funcionarios buscaCep(String cep){
+        WebServiceCep webServiceCep = WebServiceCep.searchCep(cep);
+        
+        Funcionarios obj = new Funcionarios();
+        
+        if (webServiceCep.wasSuccessful()) {
+            obj.setEndereco(webServiceCep.getLogradouroFull());
+            obj.setCidade(webServiceCep.getCidade());
+            obj.setBairro(webServiceCep.getBairro());
+            obj.setUf(webServiceCep.getUf());
+            
+            return obj;
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro numero" + webServiceCep.getResulCode());
+            JOptionPane.showMessageDialog(null, "Descrição do erro" + webServiceCep.getResultText());
+            
+            return null;
+        }
+    }
+    
+    //Metodo efetuaLogin
+    public void logar(String email, String senha){
+        try {
+            // Paso 1 - SQL
+            String sql = "select * from tb_funcionarios where email=? and senha=?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, email);
+            stmt.setString(2, senha);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()){
+                // Usuario logou
+                JOptionPane.showMessageDialog(null, "Seja bem-vindo ao Sistema PDV");
+                
+            }else{
+                //Dados Incorretos
+                JOptionPane.showMessageDialog(null, "Login ou Senha Incorreta!");
+            }
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro:" + e);
+            
+        }
+    }
+    
 }
+

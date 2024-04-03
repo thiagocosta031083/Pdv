@@ -7,6 +7,9 @@ public class Corrigir {
     
      2 - Implementar no final: Quando apertar a teclar tab, mudar o cursor para o próximo campo
     
+    3 - Campo pesquisa na Tela FrmFuncionarios. Quando manda rodar e tenta fazer a busca por nome
+    está dando o seguinte erro: Errojava.sql.SQLException: Column 'senha' not found
+    
     */
    
 }
