@@ -4,15 +4,12 @@
  */
 package br.com.pdv.view;
 
-/**
- *
- * @author Thiago
- */
+import br.com.pdv.dao.FuncionariosDAO;
+import javax.swing.JOptionPane;
+
 public class FrmLogin extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrmLogin
-     */
+  
     public FrmLogin() {
         initComponents();
     }
@@ -36,7 +33,7 @@ public class FrmLogin extends javax.swing.JFrame {
         btnsair = new javax.swing.JButton();
         btnentrar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Bem-Vindos ao Sistema PDV - Autenticação ");
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 153));
@@ -84,6 +81,11 @@ public class FrmLogin extends javax.swing.JFrame {
 
         btnentrar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnentrar.setText("ENTRAR");
+        btnentrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnentrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -141,6 +143,26 @@ public class FrmLogin extends javax.swing.JFrame {
     private void btnsairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsairActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnsairActionPerformed
+
+    private void btnentrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnentrarActionPerformed
+        // Botão entrar
+        try {
+            String email,senha;
+                email = txtemail.getText();
+                senha = txtsenha.getText();
+                
+            FuncionariosDAO dao = new FuncionariosDAO();
+            dao.efetuaLogin(email,senha);
+            this.dispose();
+                     
+            
+                        
+                        
+        } catch (Exception e) {
+            
+            JOptionPane.showMessageDialog(null, "e");
+        }
+    }//GEN-LAST:event_btnentrarActionPerformed
 
     /**
      * @param args the command line arguments

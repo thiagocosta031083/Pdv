@@ -4,6 +4,7 @@ import br.com.pdv.jdbc.ConnectionFactory;
 import br.com.pdv.model.Clientes;
 import br.com.pdv.model.Funcionarios;
 import br.com.pdv.model.WebServiceCep;
+import br.com.pdv.view.FrmMenu;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -277,7 +278,7 @@ public class FuncionariosDAO {
     }
     
     //Metodo efetuaLogin
-    public void logar(String email, String senha){
+    public void efetuaLogin(String email, String senha){
         try {
             // Paso 1 - SQL
             String sql = "select * from tb_funcionarios where email=? and senha=?";
@@ -290,6 +291,9 @@ public class FuncionariosDAO {
             if (rs.next()){
                 // Usuario logou
                 JOptionPane.showMessageDialog(null, "Seja bem-vindo ao Sistema PDV");
+                FrmMenu tela = new FrmMenu();
+                tela.setVisible(true);
+                
                 
             }else{
                 //Dados Incorretos

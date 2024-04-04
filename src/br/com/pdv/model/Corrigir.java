@@ -10,6 +10,8 @@ public class Corrigir {
     3 - Campo pesquisa na Tela FrmFuncionarios. Quando manda rodar e tenta fazer a busca por nome
     está dando o seguinte erro: Errojava.sql.SQLException: Column 'senha' not found
     
+    4 - Imagem de fundo do sistema. N
+    
     */
    
 }
