@@ -4,6 +4,7 @@ import br.com.pdv.jdbc.ConnectionFactory;
 import br.com.pdv.model.Clientes;
 import br.com.pdv.model.Funcionarios;
 import br.com.pdv.model.WebServiceCep;
+import br.com.pdv.view.FrmLogin;
 import br.com.pdv.view.FrmMenu;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -299,10 +300,12 @@ public class FuncionariosDAO {
             }else{
                 //Dados Incorretos
                 JOptionPane.showMessageDialog(null, "Login ou Senha Incorreta!");
+                
             }
             
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro:" + e);
+            new FrmLogin().setVisible(true);
             
         }
     }
